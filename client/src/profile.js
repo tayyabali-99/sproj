@@ -4,6 +4,9 @@ import { useState } from 'react'
 import {UserContext} from './App.js'
 import { upload } from '@testing-library/user-event/dist/upload';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import Map2 from './upload_location.js';
+
 
 
 
@@ -105,6 +108,7 @@ function IndividualInfo(props){
 }
 function ShowVendorProfile(props){
     const profile_data = props.profile_data; 
+    const username = props.username;
     const [open , SetOpen] = useState('')
 
     // useEffect(() => {
@@ -118,9 +122,9 @@ function ShowVendorProfile(props){
     }
 
     return (
-        <div className= 'instructor_profile'>
-            <div>review : <Link to='/review'> see reviews</Link></div>
-            <div>location : </div>
+        <div className= 'vendor_profile'>
+            <div>review : <Link to={`/review/${username}`}> see reviews</Link></div>
+            <div>location : <Link to ={`/show_location/${username}`}>location</Link></div>
             <div>open : {open}</div>
             <div>timings : </div>
             <div className='office_hours'>
@@ -198,6 +202,8 @@ function AddOfficeHours(props){
 function ShowInstructorProfile(props){
 
     const profile_data = props.profile_data; 
+    const username = props.username;
+
 
 
     return (
@@ -205,7 +211,7 @@ function ShowInstructorProfile(props){
             <div>school : {profile_data.department.school}</div>
             <div>department : {profile_data.department.department_name}</div>
             <div>designation : {profile_data.instructor.designation}</div>
-            <div>location : </div>
+            <div>location : <Link to ={`/show_location/${username}`}>location</Link></div>
             <div>availability : {profile_data.instructor.availability}</div>
             office hours : 
             <div className='office_hours'>
@@ -239,8 +245,8 @@ function GeneralInfo(props){
 
     return (
         <div className='general_profile_data'>
-            {user_type == 'instructor' && <ShowInstructorProfile profile_data = {profile_data}/>}
-            {user_type == 'vendor' && <ShowVendorProfile profile_data = {profile_data}/>}
+            {user_type == 'instructor' && <ShowInstructorProfile profile_data = {profile_data} username = {props.username}/>}
+            {user_type == 'vendor' && <ShowVendorProfile profile_data = {profile_data} username = {props.username}/>}
             {/* {user_type == 'location' && <ShowLocationProfile profile_data = {profile_data}/>} */}
 
         </div>
@@ -250,6 +256,7 @@ function GeneralInfo(props){
 function ProfileHeader(props){
 
     const {editing, SetEditing} = useContext(editingContext);
+    const edit_access = props.edit_access;
 
     function HandleEdit(){
         SetEditing((prevEditing) => (true));
@@ -272,7 +279,7 @@ function ProfileHeader(props){
                     </div>
                 }
                 
-                <button onClick = {HandleEdit}>edit</button>
+                {edit_access && <button onClick = {HandleEdit}>edit</button>}
             </div>
         </div>
     )
@@ -287,6 +294,7 @@ function EditVendorProfile(props){
     const [popUp, setPopUP] = useState(false);
     const [popUpContent, setPopUpContent] = useState('');
     const [officeHoursAdd,SetOfficeHoursAdd] = useState(false)
+    const [uploading,setUploading] = useState(false);
     const username = props.username;
 
 
@@ -303,7 +311,7 @@ function EditVendorProfile(props){
         })
     }
     function upload_location(){
-
+        setUploading((prev)=>(true))
     }
     function add_timings(){
         SetOfficeHoursAdd((prev)=> (true));
@@ -338,9 +346,18 @@ function EditVendorProfile(props){
         setPopUP((prevPopUP)=> (false));
     }
 
+    function done_uploading(){
+        setUploading((prev)=> (false))
+    }
+
 
     return (
-        <div className='edit_instructor'>
+        <div>
+            {uploading && <Map2 />}
+            {uploading && <div>
+                <button onClick={done_uploading}>done</button>
+                </div>}
+            {!uploading && <div className='edit_instructor'>
             {text_fields.map((field)=> (
                 <div>
                      {field} : <input type = 'text'  name = {field} value = {inputValues[field]} onChange = {input_change}/>
@@ -368,13 +385,15 @@ function EditVendorProfile(props){
             {officeHoursAdd && <AddOfficeHours username= {username} userType = 'vendor' oha_state = {{officeHoursAdd,SetOfficeHoursAdd}}/>}
 
 
+            </div>}
         </div>
+        
     )
 }
 
 function EditInstructorProfile(props){
 
-    const text_fields = ['name', 'department', 'designation'] 
+    const text_fields = ['name', 'designation'] 
     const username = props.username;
     // const bool_fields =  ['availability', 'auto check']
     // const set_fields = ['office_hours', 'location'] 
@@ -383,6 +402,9 @@ function EditInstructorProfile(props){
     const [officeHoursAdd,SetOfficeHoursAdd] = useState(false)
     const [available, SetAvailable] = useState('');
     const [auto,SetAuto] = useState('');
+    const [departmentList, setDepartmentList] = useState([]);
+    const [deptSuccess,setDeptSuccess] = useState(false);
+    const [uploading,setUploading] = useState(false);
 
     const [inputValues, SetInputValues] = useState({name:'',department:'',designation:''});
 
@@ -407,6 +429,8 @@ function EditInstructorProfile(props){
         SetOfficeHoursAdd((prev)=> (true));
     }
     function upload_location(){
+        // to be done in sprint 3 
+        setUploading((prev)=> (true));
 
 
     }
@@ -464,61 +488,106 @@ function EditInstructorProfile(props){
         })
     }
     function input_change(event){
-        const val = event.target.value;
+        //const val = event.target.value;
         const field = event.target.name; 
+        //const field = 'department' 
+        const val = event.target.value;
+        //const val = 'dept3'
+
+        // if (field == 'department'){
+        //     val1 = val1.name 
+        // }
+        // const val = val1;
 
         SetInputValues({
             ...inputValues,
             [field]:val,
         });
     }
+
+    
     function close_popup(){
         setPopUP((prevPopUP)=> (false));
     }
+    function done_uploading(){
+        setUploading((prev)=> (false))
+    }
+
+
+
+    useEffect(()=> {
+        const uni_data = {university_ID : 'lums'};
+        const ans = contact_db('get_departmentlist','json',uni_data)
+        ans.then((result) => {
+            setDepartmentList((prev)=> (result))
+            setDeptSuccess((prev)=> (true))
+        })
+        .catch((error)=> {
+            setDeptSuccess((prev)=> (false))
+        })
+    },[])
 
 
     return (
-        <div className='edit_instructor'>
-            {text_fields.map((field)=> (
-                <div>
-                     {field} : <input type = 'text'  name = {field} value = {inputValues[field]} onChange = {input_change}/>
-                </div>
-
-            ))}
-            <div>add office hours : <button onClick = {add_office_hours} >add</button></div>
-            <div>reset office hours : <button onClick = {reset_office_hours} >reset</button></div>
-            <div>upload location : <button onClick={upload_location}>upload</button></div>
-            <div>
-                set availability : 
-                <button onClick={set_available}>available</button>
-                <button onClick={set_busy}>busy</button>
-            </div>
-
-            <div>
-                set auto check : 
-                <button onClick={set_auto}>yes</button>
-                <button onClick={set_manual}>no</button>
-            </div>
-
-            <div className='end_buttons'>
-                <button onClick= {handle_cancel} >cancel</button>
-                <button onClick={handle_done}>done</button>
-            </div>
-
-            {popUp && <div className='popup'>
-                <div className='popup_content'>
-                    <div className='content'>
-                        {popUpContent}
+        <div>
+            {uploading && <Map2 />}
+            {uploading && <div>
+                <button onClick={done_uploading}>done</button>
+                </div>}
+            {!uploading && <div className='edit_instructor'>
+                {text_fields.map((field)=> (
+                    <div>
+                        {field} : <input type = 'text'  name = {field} value = {inputValues[field]} onChange = {input_change}/>
                     </div>
-                    <button onClick={close_popup}>ok</button>
+
+                ))}
+                <div className='designation_selection'>
+                    <div>department</div>
+                    {!deptSuccess && <p>no departments available</p>}
+                    {deptSuccess && <div className='department_list'>
+                        <select name = 'department' onChange = {input_change}>
+                            {departmentList.map((dept)=> (
+                                <option value = {dept.department_ID}>{dept.department_name}</option>
+                            ))}
+                        </select>
+                    </div>}
                 </div>
+                <div>add office hours : <button onClick = {add_office_hours} >add</button></div>
+                <div>reset office hours : <button onClick = {reset_office_hours} >reset</button></div>
+                <div>upload location : <button onClick={upload_location}>upload</button></div>
+                <div>
+                    set availability : 
+                    <button onClick={set_available}>available</button>
+                    <button onClick={set_busy}>busy</button>
+                </div>
+
+                <div>
+                    set auto check : 
+                    <button onClick={set_auto}>yes</button>
+                    <button onClick={set_manual}>no</button>
+                </div>
+
+                <div className='end_buttons'>
+                    <button onClick= {handle_cancel} >cancel</button>
+                    <button onClick={handle_done}>done</button>
+                </div>
+
+                {popUp && <div className='popup'>
+                    <div className='popup_content'>
+                        <div className='content'>
+                            {popUpContent}
+                        </div>
+                        <button onClick={close_popup}>ok</button>
+                    </div>
+
+                </div>}
+                {officeHoursAdd && <AddOfficeHours username= {username} userType = 'instructor' oha_state = {{officeHoursAdd,SetOfficeHoursAdd}}/>}
+
+
 
             </div>}
-            {officeHoursAdd && <AddOfficeHours username= {username} userType = 'instructor' oha_state = {{officeHoursAdd,SetOfficeHoursAdd}}/>}
-
-
-
         </div>
+
     )
 }
 
@@ -549,7 +618,11 @@ function Profile (){
     //const username = props.username;
     //const username = 'ehsan_manzoor';
 
-    const [username,SetUsername] = useState('vendor_9');
+    const {username} = useParams();
+    const {userData,SetUserData} = useContext(UserContext);
+    const logged_in_user = userData;
+
+    //const [username,SetUsername] = useState('vendor_9');
     const [editAccess, SetEditAccess] = useState(false); 
     const [editing,SetEditing] = useState(false); 
     const [profileData, SetProfileData] = useState('');     
@@ -582,6 +655,12 @@ function Profile (){
         .catch((error)=> {
             SetErrorDisplay((prevErrorDisplay) => ('error getting data'));
         })
+        if (username == logged_in_user){
+            SetEditAccess((prev) => (true));
+        }
+        else {
+            SetEditAccess((prev)=> (false));
+        }
     }, [username]);
     
     
@@ -596,8 +675,8 @@ function Profile (){
         <div className='profile'>
            <h1>profile page</h1>
             <editingContext.Provider value = {{editing,SetEditing}}>
-                <ProfileHeader profile_header_data = {profileData} user_type = {userType}/>
-                {editing == false && <GeneralInfo profile_data = {profileData} user_type = {userType}/>}
+                <ProfileHeader profile_header_data = {profileData} user_type = {userType} edit_access = {editAccess}/>
+                {editing == false && <GeneralInfo profile_data = {profileData} user_type = {userType} username = {username}/>}
                 {editing == true && <EditBox user_type = {userType} username = {username}/>}
             </editingContext.Provider>
 

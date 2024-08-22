@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import {UserContext} from './App.js'
 
 function LoggedNavbar(props){
+    const {userData, SetUserData} = useContext(UserContext);
 
     return (
         <div className='navbar'>
@@ -14,8 +15,9 @@ function LoggedNavbar(props){
                 <Link to='/map'>Map</Link>
             <div className='navbar_right'>
                 <Link to='/logout'>log out</Link>
-                {/* <Link to ={`/profile/${props.username}`}>profile</Link> */}
-                <Link to ={`/profile`}>profile</Link>
+                <div className='profile_link'>
+                    <Link to ={`/profile/${userData}`}>profile</Link>
+                </div>
 
             </div>
 

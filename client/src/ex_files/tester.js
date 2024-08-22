@@ -14,7 +14,6 @@
 
 
 // api_string = 'register';
-const data = {username: 'tabby99'}
 
 
 // const ans =  new Promise((resolve, reject) => {
@@ -108,13 +107,23 @@ function get_profile_data(username){
 
     //return {user_type : user_type , profile_data : contact_db(api_str[user_type],'json',data)};
     //return {user_type: user_type, profileData : {}}
+    // const departmentModel = mongoose.model('department', {
+    //     department_ID : {type: String, required:true}, 
+    //     department_name : {type: String, required:true}, 
+    //     school : {type: String, required:true}, 
+    //     department_size : {type: String, required:true}, 
+    //     university_ID : {type: String, required:true}, 
+    
+    // })
 
+//const req_data = {department_ID : "dept_tester", department_name : 'tester', school : "sse", department_size : '1 - 10', university_ID : "lums"};
+//const data = {record_type: 'department', entry : req_data};
+const data = {verified_status:true, university_ID : 'lums'}
 
-    const pr_data =  get_profile_data('ehsan1');
-    pr_data.then((result) => {
-        //SetUserType((prevUserType) => (result));
-        console.log(result);
-    })
-    .catch((error) => {
-        console.log('error');
-    })
+const ans = contact_db('get_instructor_list','json',data)
+ans.then ((result)=> {
+    console.log('success')
+})
+.catch((error)=> {
+    console.log('failed')
+})

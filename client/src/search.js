@@ -1,6 +1,7 @@
 import './styles/search.css' 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 
 
 
@@ -71,6 +72,17 @@ function Search(){
     const [vendorType, SetVendorType] = useState('');
     const [searchResults, SetSearchResults] = useState([]);
     const [showSearchResults, SetShowSearchResults] = useState(false);
+    const [id, SetId] = useState('');
+    //const [searchOutput,SetSearchOutput] = useState('')
+
+    useEffect(()=> {
+        if (searchCategory == 'location'){
+            SetId((prev)=> ('location_ID'))
+        }
+        else if (searchCategory == 'instructor' || searchCategory == 'vendor') {
+            SetId((prev)=> ('username'))
+        }
+    },[searchCategory])
 
 
 
@@ -117,7 +129,7 @@ function Search(){
 
 
         SetSearchInput('');
-        SetShowSearchResults((prevShowSearchResults) => (true));
+        SetShowSearchResults((prev) => (true));
         
         // get matches from backend
         //....
@@ -194,6 +206,8 @@ function Search(){
             return item.location_name; 
         }
     }
+    
+
     return (
 
         <div className='Search_page'>
@@ -273,7 +287,9 @@ function Search(){
                     <div >
                         {searchResults.map((item) => (
                             <div className='individual_search_result'>
-                                {search_output(item,searchCategory)}
+                                {searchCategory != 'location' && <Link to ={`/profile/${item[id]}`}>{search_output(item,searchCategory)}</Link>}
+                                {searchCategory == 'location' && <Link to ={`/show_location/${item[id]}`}>{search_output(item,searchCategory)}</Link>}
+
                             </div>
                         ))}
 

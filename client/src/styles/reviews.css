@@ -1,53 +1,10 @@
-.post_bar{
-    background-color: blueviolet;
-    height:5vh;
-    width: 60%;
-    display:flex;
-    justify-content: space-between;
-    margin:auto;
-    margin-top: 20px;
-    padding: 0 1rem;
-
-}
-.blog_post{
-    margin: auto;
-    padding-block: 1rem;
-    background-color: aqua;
-    justify-content: center;
-    width:50%;
-}
-.blog_feed{
-    margin: auto;
-    padding-block: 1rem;
-    background-color: lightblue;
-    justify-content: center;
-    width:50%;}
-
-.show_more_reviews{
-    display: flex;
-    margin: auto;
-    padding-block: 1rem;
-    background-color: rgb(159, 162, 232);
-    justify-content: center;
-    width:95%;
-    align-items: center;
-}
-
-.smr_button{
-    justify-content: center;
-}
-
-.post_display{
-    margin:auto;
-    margin-bottom: 60px;
+.individual_review{
     background-color: antiquewhite;
-    width : 75%;
-    justify-content: center;
+    margin: 1vh;
+    margin-left: 5vh;
+    width : 20%;
 }
-
-.post_header{
-    padding-bottom: 15px;
+.reviewing_user{
     font-size: x-small;
-    color: grey;
-
+    
 }
