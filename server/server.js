@@ -7,15 +7,7 @@ const { MongoClient } = require('mongodb');
 // const uri = 'mongodb://localhost:27017/uni_app_db';
 // const client = new MongoClient(uri);
 
-const path = require('path');
 
-// Serve static files from the React frontend app
-app.use(express.static(path.join(__dirname, 'client/build')));
-
-// Anything that doesn't match the API routes will serve the React app
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
 
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/uni_app_db';
 const client = new MongoClient(uri);
@@ -54,6 +46,16 @@ app.use(bodyParser.json());
 
 app.use(cors());
 app.use('/api',Routes);
+
+// const path = require('path');
+
+// // Serve static files from the React frontend app
+// app.use(express.static(path.join(__dirname, 'client/build')));
+
+// // Anything that doesn't match the API routes will serve the React app
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+// });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
