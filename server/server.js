@@ -4,7 +4,20 @@ const bodyParser = require('body-parser');
 const Routes = require('./routes.js');
 const { MongoClient } = require('mongodb');
 
-const uri = 'mongodb://localhost:27017/uni_app_db';
+// const uri = 'mongodb://localhost:27017/uni_app_db';
+// const client = new MongoClient(uri);
+
+const path = require('path');
+
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// Anything that doesn't match the API routes will serve the React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
+const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/uni_app_db';
 const client = new MongoClient(uri);
 
 async function connectToMongoDB() {
@@ -23,12 +36,14 @@ connectToMongoDB();
 const cors = require('cors');
 
 
+
+
 const app = express();
 const PORT = process.env.PORT || 5001;
 
 console.log(PORT);
 
-mongoose.connect('mongodb://localhost:27017/uni_app_db', {
+mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
