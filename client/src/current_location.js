@@ -8,6 +8,8 @@ import { upload } from '@testing-library/user-event/dist/upload';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { Loader } from "@googlemaps/js-api-loader"
+import { backend_addr } from './config.js';
+
 
 
 function Map1(){

@@ -2,8 +2,10 @@ import './styles/blog.css'
 import { useState } from 'react';
 import React, { createContext, useContext } from 'react';
 import Navbar from './navbar.js'  
-import { set } from 'mongoose';
+// import { set } from 'mongoose';
 import {UserContext} from './App.js'
+import { backend_addr } from './config.js';
+
  
 
 function IndividualPost(props){
@@ -41,7 +43,7 @@ function Blog_feed (){
     function get_posts(){
 
         const data = { university_name : '-', posts_rcvd : rcvd};
-        fetch('http://localhost:5001/api/get_posts', {
+        fetch(backend_addr + 'get_posts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -130,7 +132,7 @@ function Blog_post(){
         const data = { username: username_rcvd, post: post_rcvd, date : new Date(), university_name : '--'}
     
         return new Promise((resolve, reject) => {
-            fetch('http://localhost:5001/api/save_post', {
+            fetch(backend_addr+'save_post', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

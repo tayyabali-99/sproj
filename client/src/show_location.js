@@ -9,11 +9,13 @@ import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { Loader } from "@googlemaps/js-api-loader"
 import Map3 from './get_directions.js';
+import { backend_addr } from './config.js';
+
 
 function contact_db(api_string, return_type, data){
 
     const ans =  new Promise((resolve, reject) => {
-        const connection_string = 'http://localhost:5001/api/' + api_string;
+        const connection_string = backend_addr + api_string;
         fetch(connection_string, {
             method: 'POST',
             headers: {

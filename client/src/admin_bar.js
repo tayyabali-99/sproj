@@ -3,11 +3,13 @@ import './styles/styles.css'
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import {UserContext} from './App.js'
 
+import { backend_addr } from './config.js';
+
 
 function contact_db(api_string, return_type, data){
 
     const ans =  new Promise((resolve, reject) => {
-        const connection_string = 'http://localhost:5001/api/' + api_string;
+        const connection_string = backend_addr + api_string;
         fetch(connection_string, {
             method: 'POST',
             headers: {

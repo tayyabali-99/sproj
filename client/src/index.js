@@ -9,6 +9,10 @@ import Create_profile from './create_profile.js';
 import Search from './search.js'
 import App from './App.js'
 const root = ReactDOM.createRoot(document.getElementById('root'));
+import { backend_addr } from './config.js';
+
+
+
 
 //const usernameContext = createContext();
 

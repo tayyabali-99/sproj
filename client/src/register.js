@@ -1,7 +1,9 @@
 import './styles/register.css';
 import { useState } from 'react';
-import { set } from 'mongoose';
-import { dblClick } from '@testing-library/user-event/dist/click';
+//import { set } from 'mongoose';
+//import { dblClick } from '@testing-library/user-event/dist/click';
+import { backend_addr } from './config.js';
+
 
 
 function Register_box() {
@@ -51,7 +53,7 @@ function Register_box() {
             //send username to db , check availability , set false if not available
             const username_recieved = {data : value};
 
-            fetch('http://localhost:5001/api/username_available', {
+            fetch(backend_addr+'username_available', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
@@ -137,7 +139,7 @@ function Register_box() {
         } 
 
         // where you send the form data to the database 
-        fetch('http://localhost:5001/api/register', {
+        fetch(backend_addr+'register', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',

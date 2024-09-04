@@ -3,6 +3,8 @@ import './styles/login.css';
 import { useState, useContext } from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import {UserContext} from './App.js'
+import { backend_addr } from './config.js';
+
 
 
 
@@ -60,7 +62,7 @@ function Input_box() {
 
     const data = {username: username, password:password};
 
-    fetch('http://localhost:5001/api/sign_in', {
+    fetch(backend_addr+'sign_in', {
       method: 'POST',
       headers: {
       'Content-Type': 'application/json',

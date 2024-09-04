@@ -11,7 +11,8 @@ import { Loader } from "@googlemaps/js-api-loader"
 import Map1 from './current_location.js'
 import Map2 from './upload_location.js'
 import Map3 from './get_directions.js'
-import { get } from 'mongoose';
+// import { get } from 'mongoose';
+import { backend_addr } from './config.js';
 
 
 

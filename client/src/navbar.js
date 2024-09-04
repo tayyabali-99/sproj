@@ -2,6 +2,8 @@ import { useContext, useState } from 'react'
 import './styles/styles.css'
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import {UserContext} from './App.js'
+import { backend_addr } from './config.js';
+
 
 function LoggedNavbar(props){
     const {userData, SetUserData} = useContext(UserContext);

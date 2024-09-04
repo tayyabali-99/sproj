@@ -2,6 +2,7 @@ import './styles/search.css'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { backend_addr } from './config.js';
 
 
 
@@ -15,7 +16,7 @@ function Prev_searches(){
         //...
         const data = {username: '--'};
     
-        fetch('http://localhost:5001/api/get_prev_searches', {
+        fetch(backend_addr+'get_prev_searches', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -103,7 +104,7 @@ function Search(){
 
         const data = {username: '--', search_type: search_type, is_advanced : adv, search_string : search_input}
 
-        fetch('http://localhost:5001/api/search', {
+        fetch(backend_addr+'search', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

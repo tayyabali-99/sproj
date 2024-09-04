@@ -18,6 +18,8 @@ import AdminInstructor from './admin_instructor.js';
 import AdminLocation from './admin_location.js';
 import AdminBar from './admin_bar.js';
 import ShowLocation from './show_location.js';
+import { backend_addr } from './config.js';
+
 
 //const UserContext = createContext();
 export const UserContext = createContext();
