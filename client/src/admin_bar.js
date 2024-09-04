@@ -7,6 +7,7 @@ import { backend_addr } from './config.js';
 
 
 function contact_db(api_string, return_type, data){
+    
 
     const ans =  new Promise((resolve, reject) => {
         const connection_string = backend_addr + api_string;
