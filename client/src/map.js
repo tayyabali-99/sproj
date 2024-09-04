@@ -4,10 +4,10 @@ import './styles/styles.css'
 import React, { createContext, useContext, useEffect } from 'react'
 import { useState } from 'react'
 import {UserContext} from './App.js'
-import { upload } from '@testing-library/user-event/dist/upload';
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import { Loader } from "@googlemaps/js-api-loader"
+// import { upload } from '@testing-library/user-event/dist/upload';
+// import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
+// import { Loader } from "@googlemaps/js-api-loader"
 import Map1 from './current_location.js'
 import Map2 from './upload_location.js'
 import Map3 from './get_directions.js'

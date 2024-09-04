@@ -2,7 +2,7 @@ import './styles/profile.css'
 import React, { createContext, useContext, useEffect } from 'react'
 import { useState } from 'react'
 import {UserContext} from './App.js'
-import { upload } from '@testing-library/user-event/dist/upload';
+// import { upload } from '@testing-library/user-event/dist/upload';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Map2 from './upload_location.js';

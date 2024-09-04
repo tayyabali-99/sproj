@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import ReactDOM from 'react-dom/client';
+// import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import Login from './login.js';
 import Register from './register.js' 
 import Blog from './blog.js'
 import Map from './map.js'
-import reportWebVitals from './ex_files/reportWebVitals';
-import Create_profile from './create_profile.js';
+// import reportWebVitals from './ex_files/reportWebVitals';
+// import Create_profile from './create_profile.js';
 import Search from './search.js'
 import Home from './home.js'
 import NavBar from './navbar.js'
